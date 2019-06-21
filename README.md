@@ -1,6 +1,27 @@
+
 # NeoPixelTicTacToe3d
 A Arduino 3d TicTacToe implementation using Webserver and Neo Pixel Cube as Visualisation
 
+# Installation
+## Only online version
+
+- Download repository
+- Open in Arduin IDE
+- Choose **Wemos D1 mini** and R2 as board
+- Check that following libraries are installed:
+	 -  ESP8266WiFi
+	 -  WiFiClient
+	 -  ESP8266WebServer
+	 -  Adafruit_NeoPixel
+ - Compile and upload the source code to the ESP8266
+ - Connect with your phone to the WLan **TicTacToe Cube**
+ - Go to website **192.168.4.1**
+ - Enjoy playing
+
+## With NeoPixel Cube
+- Do online Version preperations
+- Connect first NeoPixel Din to D4
+- Connect a button with GND and D3
 
 # License:
 
