@@ -1,3 +1,18 @@
+/*
+ * This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License
+ * 
+ * 
+ * 
+ * For Friedrichs-Gymnasium Herford:
+ * 
+ * This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License only for Friedrichs-Gymnasium Herford
+ * 
+ * Author: Magnus Müller
+ * e-Mail: magnusm1709@icloud.com
+ */
+
+
+
 // Color Definitons for Cube
 #define BLACK 0,0,0
 #define GREEN 0,255,0
@@ -22,7 +37,7 @@
 #include <Adafruit_NeoPixel.h>
 
 // WiFi AP Credentials
-const char* ssid = "TicTacToe Wuerfel";
+const char* ssid = "TicTacToe Cube";
 
 
 // Setup for Webserver (80: Standard Port)
@@ -199,9 +214,8 @@ void loop() {
 
   // Used for ESP Wifi (If not called for long time (about 100 ms) ESP will reboot)
   yield();
-  Serial.println(".");
-  // TODO delete delay
-  //delay(10);
+  //Serial.println(".");
+  
 }
 
 
@@ -295,13 +309,18 @@ String buildHTML(){
   //Do for every element of an "3d Array" 
   for(byte i = 0; i < 4; i++){
      for(byte j = 0; j < 4; j++){
+         for(byte l = 0; l < j*5; l++){
+            html+="&nbsp;";
+         }
          for(byte k = 0; k < 4; k++){
             //returns a button with an link to /setVal/ijk
             html += getButton(i,j,k);
-            yield();
+            
+            //yield();
          }
          //Formatting
-         html += "<br>";
+         
+         html += " <br> ";
      }
      //Formatting
      html += "<br>";
@@ -331,7 +350,7 @@ String getButton(byte x, byte y, byte z){
   }
   
   //Serial.println("SetStone: " + subSite + " gF: " + String(gameField[x][y][z], DEC) + " color: " + String(color));
-  return String("<a href=\"../../" + setVal + "/" +  subSite + "/\"><button class=\"button\" style=\"height:" + String(buttonSize) + "px;width:" + String(buttonSize) + "px;BACKGROUND-COLOR:" + String(color) + ";\">" + "" + "</button></a>");
+  return String("<a href=\"../../" + setVal + "/" +  subSite + "/\"><button class=\"button\" style=\"height:" + String(buttonSize) + "px;width:" + String(buttonSize) + "px;BACKGROUND-COLOR:" + String(color) + ";\"></button></a>");
             
 }
 
@@ -402,8 +421,8 @@ String split(String s, byte parser, int index) {
     }
   }
 }
-
 */
+
 
 
 
