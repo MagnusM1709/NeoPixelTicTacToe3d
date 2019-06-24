@@ -25,8 +25,7 @@ A Arduino 3d TicTacToe implementation using Webserver and Neo Pixel Cube as Visu
 
 
 ## Wiring Diagramm
-![Wiring Diagramm]
-(https://github.com/MagnusM1709/NeoPixelTicTacToe3d/blob/master/Stuff/Wiringdiagramm.jpg)
+![Wiring Diagramm](https://github.com/MagnusM1709/NeoPixelTicTacToe3d/blob/master/Stuff/Wiringdiagramm.jpg)
 
 # License:
 
