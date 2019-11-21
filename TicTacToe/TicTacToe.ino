@@ -24,18 +24,17 @@ void setup() {
   setUpWifi();
   setUpServer();
   setUpCube();
+  Serial.println("Setup complete");
 }
 
 //LOOP
 void loop() {
-  unsigned long oM = millis();
   checkSession();
 
   //Check if Session is runnning (if ip == "" -> no session is running)
   if (!isSession()) {
     // if no session is running show Screensaver
     showScreenSaver();
-//    pixels.clear();
   } else {
     // if session is running show gameField
     showField();
@@ -51,7 +50,5 @@ void loop() {
     counter = 0;
   }
   counter++;
-  if(int gM = millis() - oM > 5){
-    //Serial.println(millis() - gM);
-  }
+
 }
