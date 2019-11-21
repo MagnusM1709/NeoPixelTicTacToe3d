@@ -25,11 +25,11 @@ ESP8266WebServer server(80);
 
 
 // Size of Buttons on Wepsite (in PX)
-const int buttonSize = 75;
+const uint8_t buttonSize = 75;
 
 
 // Coordinates which are Marked (5 == not Valid Value)
-byte xGlobal = 5, yGlobal = 5, zGlobal = 5;
+uint8_t xGlobal = 5, yGlobal = 5, zGlobal = 5;
 
 // Buffer for active Website name
 String actSite = "0";
@@ -119,10 +119,10 @@ void handleNormal() {
       String toHandle = split(server.uri(), '/', 2);
 
 
-      // Save XYZ Data as byte
-      xGlobal = byte(toHandle[0] - '0');
-      yGlobal = byte(toHandle[1] - '0');
-      zGlobal = byte(toHandle[2] - '0');
+      // Save XYZ Data as uint8_t
+      xGlobal = uint8_t(toHandle[0] - '0');
+      yGlobal = uint8_t(toHandle[1] - '0');
+      zGlobal = uint8_t(toHandle[2] - '0');
 
     }
 
@@ -141,7 +141,7 @@ void handleNormal() {
     }
 
     // After every Website reloding check End of Game Condition
-    byte EOGCondition = checkEOGCondition();
+    uint8_t EOGCondition = checkEOGCondition();
     //Serial.println("EOFCondition: " + checkEOGCondition());
     // If Draw
     if (EOGCondition == 255) {
@@ -171,12 +171,12 @@ String buildHTML() {
   String html = "<center>";
 
   //Do for every element of an "3d Array"
-  for (byte i = 0; i < 4; i++) {
-    for (byte j = 0; j < 4; j++) {
-      for (byte l = 0; l < j * 5; l++) {
+  for (uint8_t i = 0; i < 4; i++) {
+    for (uint8_t j = 0; j < 4; j++) {
+      for (uint8_t l = 0; l < j * 5; l++) {
         html += "&nbsp;";
       }
-      for (byte k = 0; k < 4; k++) {
+      for (uint8_t k = 0; k < 4; k++) {
         //returns a button with an link to /setVal/ijk
         html += getButton(i, j, k);
 
@@ -201,15 +201,15 @@ String buildHTML() {
 
 
 //Function that generates HTML Buttons with an link to /actSite/xyz
-String getButton(byte x, byte y, byte z) {
+String getButton(uint8_t x, uint8_t y, uint8_t z) {
   String subSite = String(x, DEC) + String(y, DEC) + String(z, DEC);
   String color = "black";
   if (x == xGlobal && y == yGlobal && z == zGlobal) {
     color = "red";
   }
-  if (gameField[x][y][z] == byte(1)) {
+  if (gameField[x][y][z] == uint8_t(1)) {
     color = "green";
-  } else if (gameField[x][y][z] == byte(2)) {
+  } else if (gameField[x][y][z] == uint8_t(2)) {
     color = "blue";
   }
 
@@ -240,7 +240,7 @@ void resetSite(){
 }
 
 // Helper Function for Stringpsplitting
-String split(String s, byte parser, int index) {
+String split(String s, uint8_t parser, int index) {
   String rs = "";
   int parserIndex = index;
   int parserCnt = 0;

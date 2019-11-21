@@ -23,14 +23,16 @@
 #define ColorNO2  BLUE
 #define ColorHIGHLIGHT  RED
 
-
+#define PLAYER1 1
+#define PLAYER2 2
+#define ACTIVESELECTION 3
 
 
 // Boolean to save which turn it is (True == Player ONE)
-boolean currentPlayer = false;
+boolean currentPlayer1 = false;
 
 // gameField (Hold all Information, which player has a Stone on, which Place)
-byte gameField[4][4][4] =
+uint8_t gameField[4][4][4] =
 {
   {
     {0, 0, 0, 0},
@@ -67,9 +69,9 @@ void resetGame() {
   
 
   Serial.println("RESET");
-  for (byte i = 0; i < 4; i++) {
-    for (byte j = 0; j < 4; j++) {
-      for (byte k = 0; k < 4; k++) {
+  for (uint8_t i = 0; i < 4; i++) {
+    for (uint8_t j = 0; j < 4; j++) {
+      for (uint8_t k = 0; k < 4; k++) {
         gameField[i][j][k] = 0;
       }
     }
@@ -79,25 +81,25 @@ void resetGame() {
   changeCurrentPlayerNumber();
   
 }
-byte getCurrentPlayerNumber() {
-  if (currentPlayer) return 1;
+uint8_t getCurrentPlayerNumber() {
+  if (currentPlayer1) return 1;
   return 2;
 }
-void setCurrentPlayerNumber(byte i) {
+void setCurrentPlayerNumber(uint8_t i) {
   if (i == 1) {
-    currentPlayer = true;
+    currentPlayer1 = true;
   } else if (i == 2) {
-    currentPlayer = false;
+    currentPlayer1 = false;
   }
 }
 void changeCurrentPlayerNumber() {
-  currentPlayer = !currentPlayer;
+  currentPlayer1 = !currentPlayer1;
 }
-boolean setStone(byte x, byte y, byte z) {
+boolean setStone(uint8_t x, uint8_t y, uint8_t z) {
   if (x > 3 || y > 3 || z > 3)return false;
-  if (gameField[x][y][z] == 0 || gameField[x][y][z] == 3) {
+  if (gameField[x][y][z] == 0 || gameField[x][y][z] == ACTIVESELECTION) {
     
-    gameField[x][y][z] = byte(getCurrentPlayerNumber());
+    gameField[x][y][z] = uint8_t(getCurrentPlayerNumber());
     
     changeCurrentPlayerNumber();
     return true;
@@ -106,23 +108,23 @@ boolean setStone(byte x, byte y, byte z) {
 }
 
 
-byte checkEOGCondition() {
+uint8_t checkEOGCondition() {
 
   //Code smell
-  byte field [4][4][4];
-  for (byte i = 0; i < 4; i++) {
-    for (byte j = 0; j < 4; j++) {
-      for (byte k = 0; k < 4; k++) {
+  uint8_t field [4][4][4];
+  for (uint8_t i = 0; i < 4; i++) {
+    for (uint8_t j = 0; j < 4; j++) {
+      for (uint8_t k = 0; k < 4; k++) {
         field[i][j][k] = gameField[i][j][k];
       }
     }
   }
   //EO code smell
 
-  for (byte i = 0; i < 4; i++) {
-    for (byte j = 0; j < 4; j++) {
-      byte temp[4];
-      for (byte k = 0; k < 4; k++) {
+  for (uint8_t i = 0; i < 4; i++) {
+    for (uint8_t j = 0; j < 4; j++) {
+      uint8_t temp[4];
+      for (uint8_t k = 0; k < 4; k++) {
         temp[k] = field[i][j][k];
       }
       if (temp[0] == temp[1] && temp[0] == temp[2] && temp[0] == temp[3] && temp[0] != 0) {
@@ -131,10 +133,10 @@ byte checkEOGCondition() {
       }
     }
   }
-  for (byte i = 0; i < 4; i++) {
-    for (byte j = 0; j < 4; j++) {
-      byte temp[4];
-      for (byte k = 0; k < 4; k++) {
+  for (uint8_t i = 0; i < 4; i++) {
+    for (uint8_t j = 0; j < 4; j++) {
+      uint8_t temp[4];
+      for (uint8_t k = 0; k < 4; k++) {
         temp[k] = field[i][k][j];
       }
       if (temp[0] == temp[1] && temp[0] == temp[2] && temp[0] == temp[3] && temp[0] != 0) {
@@ -143,10 +145,10 @@ byte checkEOGCondition() {
       }
     }
   }
-  for (byte i = 0; i < 4; i++) {
-    for (byte j = 0; j < 4; j++) {
-      byte temp[4];
-      for (byte k = 0; k < 4; k++) {
+  for (uint8_t i = 0; i < 4; i++) {
+    for (uint8_t j = 0; j < 4; j++) {
+      uint8_t temp[4];
+      for (uint8_t k = 0; k < 4; k++) {
         temp[k] = field[k][i][j];
       }
       if (temp[0] == temp[1] && temp[0] == temp[2] && temp[0] == temp[3] && temp[0] != 0) {
@@ -155,9 +157,9 @@ byte checkEOGCondition() {
       }
     }
   }
-  for (byte i = 0; i < 4; i++) {
-    byte temp[4];
-    for (byte k = 3; k >= 4; k--) {
+  for (uint8_t i = 0; i < 4; i++) {
+    uint8_t temp[4];
+    for (uint8_t k = 3; k >= 4; k--) {
       temp[k] = field[i][i][k];
     }
     if (temp[0] == temp[1] && temp[0] == temp[2] && temp[0] == temp[3] && temp[0] != 0) {
@@ -165,9 +167,9 @@ byte checkEOGCondition() {
       if (temp[0] == 2)return 2;
     }
   }
-  for (byte i = 0; i < 4; i++) {
-    for (byte j = 0; j < 4; j++) {
-      for (byte k = 0; k < 4; k++) {
+  for (uint8_t i = 0; i < 4; i++) {
+    for (uint8_t j = 0; j < 4; j++) {
+      for (uint8_t k = 0; k < 4; k++) {
         if (field[i][i][k] == 0) {
           return 0;
         }
@@ -181,11 +183,11 @@ byte checkEOGCondition() {
 
 void showField() {
   //Code smell
-  byte field [4][4][4];
-  for (byte i = 0; i < 4; i++) {
-    for (byte j = 0; j < 4; j++) {
-      for (byte k = 0; k < 4; k++) {
-        byte temp = gameField[i][j][k];
+  uint8_t field [4][4][4];
+  for (uint8_t i = 0; i < 4; i++) {
+    for (uint8_t j = 0; j < 4; j++) {
+      for (uint8_t k = 0; k < 4; k++) {
+        uint8_t temp = gameField[i][j][k];
         if (temp == 1) setPixel(i, j, k, ColorNO1);
         if (temp == 2) setPixel(i, j, k, ColorNO2);
         if (temp == 3) setPixel(i, j, k, ColorHIGHLIGHT);
